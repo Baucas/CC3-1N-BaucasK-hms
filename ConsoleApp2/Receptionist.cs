@@ -6,27 +6,16 @@ using System.Threading.Tasks;
 
 namespace CC3_1N_HMS
 {
-    public class Receptionist: User
+    public class Receptionist : Guest
     {
-        public Receptionist(string name, string address, string email, int phoneNumber) : base(name, address, email, phoneNumber)
+        public Receptionist(string name, string address, string email, int phoneNumber)
+            : base(name, address, email, phoneNumber)
         {
         }
 
-        public void BookReservation(Hotel hotel, HotelRoom room, User user)
+        public void BookReservation(Guest guest, Reservation reservation)
         {
-            Reservation reservation = new Reservation
-            {
-                ReservationNumber = Guid.NewGuid().ToString(),
-                StartTime = DateTime.Now,
-                EndTime = DateTime.Now.AddDays(3),
-                DurationInDays = 3,
-                User = user,
-                HotelRoom = room,
-                Hotel = hotel
-            };
-
-            reservation.DisplayReservationDetails();
-            Console.WriteLine("Reservation created successfully!");
+            guest.BookReservation(reservation);
         }
     }
 }

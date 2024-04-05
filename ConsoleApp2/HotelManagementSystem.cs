@@ -9,12 +9,19 @@ namespace CC3_1N_HMS
     public class HotelManagementSystem
     {
         private List<Hotel> hotels;
-        private List<UserAccount> users;
+        private List<Guest> users;
+        private List<Reservation> reservations;
 
         public HotelManagementSystem()
         {
             hotels = new List<Hotel>();
-            users = new List<UserAccount>();
+            users = new List<Guest>();
+            reservations = new List<Reservation>();
+        }
+
+        public void RegisterUser(Guest user)
+        {
+            users.Add(user);
         }
 
         public void AddHotel(Hotel hotel)
@@ -22,50 +29,42 @@ namespace CC3_1N_HMS
             hotels.Add(hotel);
         }
 
-        public void RegisterUser(UserAccount user)
+        public void DisplayHotels()
         {
-            users.Add(user);
+            Console.WriteLine("List of Hotels:");
+            foreach (var hotel in hotels)
+            {
+                Console.WriteLine($"{hotel.HotelName}, {hotel.Location}");
+            }
         }
 
         public void BookReservation(Hotel hotel, HotelRoom room, Guest guest, DateTime startTime, DateTime endTime)
         {
-            Reservation reservation = new Reservation
+            if (!room.Status)
             {
-                ReservationNumber = Guid.NewGuid().ToString(),
-                StartTime = startTime,
-                EndTime = endTime,
-                DurationInDays = (endTime - startTime).Days,
-                User = guest,
-                HotelRoom = room,
-                Hotel = hotel
-            };
+                Console.WriteLine("Room is already booked.");
+                return;
+            }
 
-            guest.BookRoom(room);
-            room.IsAvailable = false;
-            Console.WriteLine("Reservation booked successfully!");
+            room.Status = false;
+            Reservation reservation = new Reservation(startTime, endTime, room);
+            reservations.Add(reservation);
+            guest.BookReservation(reservation);
         }
 
-        public void DisplayHotels()
+        public void DisplayReservationDetails(int reservationNumber)
         {
-            foreach (Hotel hotel in hotels)
+            var reservation = reservations.Find(r => r.ReservationNumber == reservationNumber);
+            if (reservation == null)
             {
-                hotel.DisplayHotelInfo();
+                Console.WriteLine("Reservation not found.");
+                return;
             }
-        }
 
-        public void DisplayReservationDetails(string reservationNumber)
-        {
-            foreach (Hotel hotel in hotels)
-            {
-                foreach (HotelRoom room in hotel.Rooms)
-                {
-                    if (room.IsAvailable == false)
-                    {
-                        Console.WriteLine($"Hotel: {hotel.Name}, Room: {room.RoomNumber}, Reservation Number: {reservationNumber}");
-                    }
-                }
-            }
+            reservation.DisplayDetails();
         }
     }
+
 }
+
 

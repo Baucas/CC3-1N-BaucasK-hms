@@ -8,41 +8,40 @@ namespace CC3_1N_HMS
 {
     public class Hotel
     {
-        public string Name { get; set; }
+        public string HotelName { get; set; }
         public string Location { get; set; }
-        public List<HotelRoom> Rooms { get; set; }
+        private List<HotelRoom> allRooms;
+
+        public Hotel(string hotelName, string location, List<HotelRoom> rooms)
+        {
+            HotelName = hotelName;
+            Location = location;
+            allRooms = rooms;
+        }
 
         public void DisplayAvailableRooms()
         {
-            Console.WriteLine($"Available rooms in {Name} - {Location}:");
-            foreach (HotelRoom room in Rooms)
+            Console.WriteLine($"Hotel {HotelName} - Available Rooms:");
+            foreach (var room in allRooms)
             {
-                if (room.IsAvailable)
+                if (room.Status)
                 {
-                    room.DisplayRoomDetails();
-                    Console.WriteLine();
+                    Console.WriteLine($"Room {room.RoomNumber}, Style: {room.Style}, Price: {room.BookingPrice}");
                 }
-            }
-        }
-
-        public void BookRoom(Guest guest, string roomNumber)
-        {
-            HotelRoom room = Rooms.Find(r => r.RoomNumber.Equals(roomNumber, StringComparison.OrdinalIgnoreCase));
-
-            if (room != null)
-            {
-                room.BookRoom(guest);
-            }
-            else
-            {
-                Console.WriteLine("Invalid room number.");
             }
         }
 
         public void DisplayBookedRooms()
         {
-            Console.WriteLine($"Name: {Name}");
-            Console.WriteLine($"Location: {Location}");
+            Console.WriteLine($"Hotel {HotelName} - Booked Rooms:");
+            foreach (var room in allRooms)
+            {
+                if (!room.Status)
+                {
+                    Console.WriteLine($"Room {room.RoomNumber}, Style: {room.Style}, Price: {room.BookingPrice}");
+                }
+            }
         }
     }
+
 }
