@@ -25,12 +25,12 @@ namespace CC3_1N_HMS
             hms.AddHotel(hotelYanan);
             hms.AddHotel(hotel456);
 
-            // Output of DisplayHotels
+
             Console.WriteLine("List of Hotels:");
             hms.DisplayHotels();
             Console.WriteLine();
 
-            // Output of DisplayAvailableRooms for hotelYanan
+
             Console.WriteLine("Available rooms in Hotel Yanan:");
             hotelYanan.DisplayAvailableRooms();
             Console.WriteLine();
@@ -40,12 +40,12 @@ namespace CC3_1N_HMS
 
             hms.BookReservation(hotelYanan, room1, terry, DateTime.Now, new DateTime(2024, 04, 16));
 
-            // Output of DisplayBookedRooms for hotelYanan
+
             Console.WriteLine("Booked rooms in Hotel Yanan:");
             hotelYanan.DisplayBookedRooms();
             Console.WriteLine();
 
-            // Output of DisplayReservations for terry
+
             Console.WriteLine($"List of Reservations of {terry.Name}:");
             terry.DisplayReservations();
             Console.WriteLine();
@@ -56,12 +56,10 @@ namespace CC3_1N_HMS
             Reservation res = new Reservation(new DateTime(2024, 05, 01), new DateTime(2024, 05, 06), hotel456Room2);
             anna.BookReservation(terry, res);
 
-            // Output of DisplayReservations for terry
             Console.WriteLine($"Updated list of Reservations of {terry.Name}:");
             terry.DisplayReservations();
             Console.WriteLine();
 
-            // Output of DisplayReservationDetails
             Console.WriteLine("Reservation Details for Reservation Number: 1234567890");
             hms.DisplayReservationDetails(1234567890);
         }
